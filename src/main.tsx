@@ -25,85 +25,94 @@ function getPillHtml(colorName: ColorName, size: 'sm' | 'md' = 'md') {
 function render() {
   const app = document.querySelector<HTMLDivElement>('#app')!;
   
+  // 外側に背景用のコンテナを追加
   app.innerHTML = `
-    <div class="min-h-screen bg-slate-950 text-slate-100 p-4 md:p-8 font-sans">
-      <header class="flex items-center justify-between pb-6 border-b border-slate-800 mb-8">
-        <h1 class="text-3xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-fuchsia-500">
-          Vite+vite
-        </h1>
-        <button id="reset-btn" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm font-semibold transition">
-          New Game
-        </button>
-      </header>
-
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="fixed inset-0 bg-slate-950 flex justify-center">
+      
+      <div class="relative w-full max-w-md bg-slate-900 flex flex-col shadow-2xl border-x border-slate-800 h-[100dvh] overflow-hidden">
         
-        <div class="lg:col-span-2 space-y-8">
+        <header class="flex-none flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-900/80 backdrop-blur-md z-10">
+          <h1 class="text-3xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-fuchsia-500">
+            Vite+vite
+          </h1>
+          <button id="reset-btn" class="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 rounded-full text-xs font-bold transition-all border border-slate-700">
+            NEW GAME
+          </button>
+        </header>
+
+        <main class="flex-1 flex flex-col min-h-0">
           
-          <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 shadow-xl">
-            <div class="flex items-center justify-between mb-4">
-              <h2 class="text-xl font-bold">Make your Guess</h2>
-              <span class="text-sm font-mono px-3 py-1 bg-slate-800 rounded-full text-slate-400">
-                Attempt: ${attempts.length + 1} / ${MAX_ATTEMPTS}
+          <div class="flex-none p-6 space-y-6">
+            
+            <div class="flex items-center justify-between">
+              <h2 class="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-500">Current Trace</h2>
+              <span class="text-[10px] font-mono px-2 py-0.5 bg-cyan-950/50 rounded border border-cyan-800/50 text-cyan-400">
+                LOG: ${String(attempts.length + 1).padStart(2, '0')} / ${MAX_ATTEMPTS}
               </span>
             </div>
 
-            <div class="flex justify-center gap-4 py-6 bg-slate-950 rounded-xl border border-slate-800 mb-6 min-h-[80px]">
+            <div class="flex justify-center gap-4 py-6 bg-slate-950/50 rounded-2xl border border-slate-800 shadow-inner">
               ${currentGuess.map(color => getPillHtml(color, 'md')).join('')}
               ${Array(CODE_LENGTH - currentGuess.length).fill(0).map(() => 
-                `<div class="w-10 h-10 rounded-full bg-slate-800 border-2 border-dashed border-slate-700"></div>`
+                `<div class="w-10 h-10 rounded-full bg-slate-900/50 border-2 border-dashed border-slate-800/80 transition-all"></div>`
               ).join('')}
             </div>
 
-            <div class="flex justify-center gap-3 md:gap-4 mb-6">
+            <div class="grid grid-cols-3 gap-3">
               ${COLOR_PALETTE.map(color => `
                 <button 
                   data-color="${color.name}" 
-                  class="color-pick-btn w-12 h-12 md:w-14 md:h-14 rounded-xl ${color.bg} border-4 ${color.border} 
-                         active:scale-95 transition-transform shadow-lg focus:outline-none focus:ring-4 focus:ring-cyan-500/50
-                         ${isGameOver ? 'opacity-50 cursor-not-allowed' : ''}"
+                  class="color-pick-btn h-12 rounded-xl ${color.bg} border-2 ${color.border} 
+                         active:scale-95 transition-all shadow-md hover:brightness-110
+                         ${isGameOver ? 'opacity-20 grayscale cursor-not-allowed' : ''}"
                   ${isGameOver ? 'disabled' : ''}
                 ></button>
               `).join('')}
             </div>
 
-            <div class="flex gap-4">
-              <button id="clear-btn" class="flex-1 py-3 bg-slate-800 hover:bg-slate-700 rounded-xl font-bold transition disabled:opacity-50"
+            <div class="flex gap-3">
+              <button id="clear-btn" class="flex-1 py-3 bg-slate-800 text-xs font-black rounded-xl hover:bg-slate-750 transition-colors disabled:opacity-20"
                 ${currentGuess.length === 0 || isGameOver ? 'disabled' : ''}>
-                Clear
+                CLEAR
               </button>
-              <button id="submit-btn" class="flex-1 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 rounded-xl font-bold transition shadow-lg shadow-cyan-500/20 disabled:opacity-50"
+              <button id="submit-btn" class="flex-[2] py-3 bg-cyan-600 text-xs font-black rounded-xl shadow-lg shadow-cyan-900/20 hover:bg-cyan-500 transition-colors disabled:opacity-20"
                 ${currentGuess.length !== CODE_LENGTH || isGameOver ? 'disabled' : ''}>
-                Check (Enter)
+                CHECK_LOG
               </button>
             </div>
+
+            <div id="message-area" class="h-6 flex items-center justify-center"></div>
           </div>
 
-          <div id="message-area" class="min-h-[60px]"></div>
-        </div>
-
-        <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 shadow-xl space-y-4">
-          <h2 class="text-xl font-bold mb-4 flex items-center gap-2">
-            <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-            History
-          </h2>
-          <div class="space-y-3 max-h-[400px] lg:max-h-[600px] overflow-y-auto pr-2 text-sm font-mono">
-            ${attempts.slice().reverse().map((attempt, index) => `
-              <div class="flex items-center justify-between gap-3 p-3 bg-slate-950 rounded-lg border border-slate-800">
-                <span class="text-slate-600 w-6">${attempts.length - index}.</span>
-                <div class="flex gap-1.5 flex-1">
-                  ${attempt.guess.map(color => getPillHtml(color, 'sm')).join('')}
+          <div class="flex-1 flex flex-col min-h-0 bg-slate-950/30">
+            <div class="px-6 py-2 border-t border-b border-slate-800/50 bg-slate-900/50">
+              <span class="text-[9px] font-bold text-slate-500 uppercase tracking-widest">Diagnostic History</span>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto px-6 py-4 space-y-3 pb-12 custom-scrollbar">
+              ${attempts.slice().reverse().map((attempt, index) => `
+                <div class="flex items-center justify-between gap-4 p-3 bg-slate-900/50 rounded-xl border border-slate-800/50 animate-fade-in hover:border-slate-700 transition-colors">
+                  <span class="text-[10px] font-mono text-slate-600 w-4">${String(attempts.length - index).padStart(2, '0')}</span>
+                  <div class="flex gap-1.5 flex-1">
+                    ${attempt.guess.map(color => getPillHtml(color, 'sm')).join('')}
+                  </div>
+                  <div class="flex gap-2">
+                    <div class="flex flex-col items-center">
+                      <span class="text-[8px] font-black text-cyan-500 uppercase">Vite</span>
+                      <span class="text-sm font-mono font-bold text-cyan-200">${attempt.eat}</span>
+                    </div>
+                    <div class="w-[1px] h-6 bg-slate-800 self-center"></div>
+                    <div class="flex flex-col items-center">
+                      <span class="text-[8px] font-black text-slate-500 uppercase italic">vite</span>
+                      <span class="text-sm font-mono font-bold text-slate-300">${attempt.bite}</span>
+                    </div>
+                  </div>
                 </div>
-                <div class="flex gap-2 text-xs">
-                  <span class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">Vite: ${attempt.eat}</span>
-                  <span class="px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800">vite: ${attempt.bite}</span>
-                </div>
-              </div>
-            `).join('')}
-            ${attempts.length === 0 ? '<p class="text-center text-slate-600 py-4 font-sans">No guesses yet.</p>' : ''}
+              `).join('')}
+              ${attempts.length === 0 ? '<p class="text-center text-slate-700 py-20 text-[10px] uppercase tracking-[0.2em]">Ready to analyze</p>' : ''}
+            </div>
           </div>
-        </div>
-
+        </main>
       </div>
     </div>
   `;
