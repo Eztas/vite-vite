@@ -20,16 +20,15 @@ jobs:
         with:
           node-version: 20
 
-      - name: Install dependencies
+      - name: Install and Build with Vite+
         run: |
           curl -fsSL https://viteplus.dev/install.sh | bash
-          echo "$HOME/.voidzero/bin" >> $GITHUB_PATH
-
-      - name: Verify and Build with vite+
-        run: |
-          vp --version
-          vp install
-          vp build
+          VP_BIN="$HOME/.voidzero/bin/vp"
+          
+          # 3. そのパスを直接使って実行する
+          $VP_BIN --version
+          $VP_BIN install
+          $VP_BIN build
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
