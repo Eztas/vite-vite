@@ -1,23 +1,12 @@
 import './style.css'
+import { judge, generateSecretCode } from './lib/utils';
+import type { ColorName } from './consts';
+import { COLOR_PALETTE, CODE_LENGTH, MAX_ATTEMPTS } from './consts';
 
 // 変数にするとややこしいので
 // Vite = eat（位置も色も合っている数）
 // vite = bite（色は合っているが位置が違う数）
 // と呼ぶことにする
-
-// --- ゲームの設定 ---
-const COLOR_PALETTE = [
-  { name: 'red',    bg: 'bg-red-500',    border: 'border-red-700' },
-  { name: 'blue',   bg: 'bg-blue-500',   border: 'border-blue-700' },
-  { name: 'green',  bg: 'bg-green-500',  border: 'border-green-700' },
-  { name: 'yellow', bg: 'bg-yellow-400', border: 'border-yellow-600' },
-  { name: 'purple', bg: 'bg-purple-500', border: 'border-purple-700' },
-  { name: 'white',  bg: 'bg-white',      border: 'border-gray-300' },
-] as const;
-
-type ColorName = typeof COLOR_PALETTE[number]['name'];
-const CODE_LENGTH = 4; // 4桁
-const MAX_ATTEMPTS = 10; // 10回まで
 
 // --- ゲームの状態 ---
 let secretCode: ColorName[] = [];
@@ -25,51 +14,7 @@ let currentGuess: ColorName[] = [];
 let attempts: { guess: ColorName[], eat: number, bite: number }[] = [];
 let isGameOver = false;
 
-// --- ユーティリティ関数 ---
-
-// 正解の作成（重複あり）
-function generateSecretCode(): ColorName[] {
-  const code: ColorName[] = [];
-  for (let i = 0; i < CODE_LENGTH; i++) {
-    const randomColor = COLOR_PALETTE[Math.floor(Math.random() * COLOR_PALETTE.length)].name;
-    code.push(randomColor);
-  }
-  return code;
-}
-
-// ヒット＆ブローの判定ロジック（重複対応版）
-function judge(secret: ColorName[], guess: ColorName[]) {
-  let eat = 0;
-  let bite = 0;
-
-  const secretCopy: (ColorName | null)[] = [...secret];
-  const guessCopy: (ColorName | null)[] = [...guess];
-
-  // 1. ヒットの判定（位置も色も合っている）
-  for (let i = 0; i < CODE_LENGTH; i++) {
-    if (guessCopy[i] === secretCopy[i]) {
-      eat++;
-      secretCopy[i] = null; // 使用済みマーク
-      guessCopy[i] = null;
-    }
-  }
-
-  // 2. ブローの判定（色は合っているが位置が違う、重複を考慮）
-  for (let i = 0; i < CODE_LENGTH; i++) {
-    if (guessCopy[i] !== null) {
-      // ここを「secretCopy.indexOf」ではなく、
-      // 元の「secret」全体に対して存在チェックをかける
-      if (secret.includes(guessCopy[i]!)) {
-        bite++;
-      }
-    }
-  }
-
-  return { eat, bite };
-}
-
 // --- UI レンダリング関数 ---
-
 function getPillHtml(colorName: ColorName, size: 'sm' | 'md' = 'md') {
   const color = COLOR_PALETTE.find(c => c.name === colorName);
   if (!color) return '';
