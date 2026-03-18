@@ -1,5 +1,10 @@
 import './style.css'
 
+// 変数にするとややこしいので
+// Vite = eat（位置も色も合っている数）
+// vite = bite（色は合っているが位置が違う数）
+// と呼ぶことにする
+
 // --- ゲームの設定 ---
 const COLOR_PALETTE = [
   { name: 'red',    bg: 'bg-red-500',    border: 'border-red-700' },
@@ -17,7 +22,7 @@ const MAX_ATTEMPTS = 10; // 10回まで
 // --- ゲームの状態 ---
 let secretCode: ColorName[] = [];
 let currentGuess: ColorName[] = [];
-let attempts: { guess: ColorName[], hit: number, blow: number }[] = [];
+let attempts: { guess: ColorName[], eat: number, bite: number }[] = [];
 let isGameOver = false;
 
 // --- ユーティリティ関数 ---
@@ -34,8 +39,8 @@ function generateSecretCode(): ColorName[] {
 
 // ヒット＆ブローの判定ロジック（重複対応版）
 function judge(secret: ColorName[], guess: ColorName[]) {
-  let hit = 0;
-  let blow = 0;
+  let eat = 0;
+  let bite = 0;
 
   const secretCopy: (ColorName | null)[] = [...secret];
   const guessCopy: (ColorName | null)[] = [...guess];
@@ -43,7 +48,7 @@ function judge(secret: ColorName[], guess: ColorName[]) {
   // 1. ヒットの判定（位置も色も合っている）
   for (let i = 0; i < CODE_LENGTH; i++) {
     if (guessCopy[i] === secretCopy[i]) {
-      hit++;
+      eat++;
       secretCopy[i] = null; // 使用済みマーク
       guessCopy[i] = null;
     }
@@ -52,15 +57,15 @@ function judge(secret: ColorName[], guess: ColorName[]) {
   // 2. ブローの判定（色は合っているが位置が違う、重複を考慮）
   for (let i = 0; i < CODE_LENGTH; i++) {
     if (guessCopy[i] !== null) {
-      const sIdx = secretCopy.indexOf(guessCopy[i]);
-      if (sIdx !== -1) {
-        blow++;
-        secretCopy[sIdx] = null; // 使用済みマーク
+      // ここを「secretCopy.indexOf」ではなく、
+      // 元の「secret」全体に対して存在チェックをかける
+      if (secret.includes(guessCopy[i]!)) {
+        bite++;
       }
     }
   }
 
-  return { hit, blow };
+  return { eat, bite };
 }
 
 // --- UI レンダリング関数 ---
@@ -79,7 +84,7 @@ function render() {
     <div class="min-h-screen bg-slate-950 text-slate-100 p-4 md:p-8 font-sans">
       <header class="flex items-center justify-between pb-6 border-b border-slate-800 mb-8">
         <h1 class="text-3xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-fuchsia-500">
-          Vite + vite
+          Vite+vite
         </h1>
         <button id="reset-btn" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm font-semibold transition">
           New Game
@@ -145,8 +150,8 @@ function render() {
                   ${attempt.guess.map(color => getPillHtml(color, 'sm')).join('')}
                 </div>
                 <div class="flex gap-2 text-xs">
-                  <span class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">Vite: ${attempt.hit}</span>
-                  <span class="px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800">vite: ${attempt.blow}</span>
+                  <span class="px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800">Vite: ${attempt.eat}</span>
+                  <span class="px-2 py-0.5 rounded bg-amber-950 text-amber-300 border border-amber-800">vite: ${attempt.bite}</span>
                 </div>
               </div>
             `).join('')}
@@ -180,7 +185,7 @@ function handleGuess() {
   const result = judge(secretCode, currentGuess);
   attempts.push({ guess: [...currentGuess], ...result });
   
-  if (result.hit === CODE_LENGTH) {
+  if (result.eat === CODE_LENGTH) {
     isGameOver = true;
     showMessage(`🎉 PERFECT! You guessed it in ${attempts.length} tries!`, 'success');
   } else if (attempts.length >= MAX_ATTEMPTS) {
@@ -188,7 +193,7 @@ function handleGuess() {
     const codeHtml = `<div class="flex justify-center gap-2 mt-2">${secretCode.map(c => getPillHtml(c, 'sm')).join('')}</div>`;
     showMessage(`GAME OVER. The answer was:${codeHtml}`, 'error');
   } else {
-    showMessage(`H: ${result.hit} / B: ${result.blow}`, 'info');
+    showMessage(`Vite: ${result.eat} / vite: ${result.bite}`, 'info');
   }
 
   currentGuess = [];
