@@ -9,6 +9,20 @@ https://eztas.github.io/vite-vite/
 4. `.github/workflows/deploy.yml`の作成（`vp`コマンドをCIで利用するための[参考](https://github.com/voidzero-dev/setup-vp/blob/main/README.md)）
 5. GithubのSettings -> PagesのBuild and deploymentでGithub Actionsを選択
 
+## その他
+
+### tailwindcss
+従来のように初期のセットアップではtailwindcssは入らない
+1. `vp install tailwindcss @tailwindcss/vite` * 警告は出るがおそらく問題ない
+2. `style.css`の全文を`@import "tailwindcss";`に変更
+3. `vite.config.ts`に`import tailwindcss from '@tailwindcss/vite'`と
+```ts
+plugins: [
+    tailwindcss(),
+],
+```
+を追加
+
 ## 参考文献
 - [【Alpha版】Vite+ を試してみる！【VoidZero帝国】](https://zenn.dev/hiruno_tarte/articles/vite-plus-alpha)
 - [Announcing Vite+ Alpha](https://voidzero.dev/posts/announcing-vite-plus-alpha)
