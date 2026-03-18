@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main] # mainブランチにpushされたら起動
+    branches: [main]
 
 permissions:
   contents: read
@@ -15,20 +15,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      # 公式のセットアップActionを使用
+      - uses: voidzero-dev/setup-vp@v1
         with:
-          node-version: 20
+          node-version: "22"
+          cache: true        # 依存関係のキャッシュも自動でやってくれます
+          run-install: true  # 自動で vp install を実行してくれます
 
-      - name: Install and Build with Vite+
-        run: |
-          curl -fsSL https://viteplus.dev/install.sh | bash
-          VP_BIN="$HOME/.voidzero/bin/vp"
-          
-          # 3. そのパスを直接使って実行する
-          $VP_BIN --version
-          $VP_BIN install
-          $VP_BIN build
+      - name: Build with Vite+
+        run: vp build
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
