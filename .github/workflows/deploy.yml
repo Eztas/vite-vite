@@ -22,8 +22,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          npm install -g @voidzero/vite-plus
-          vp install
+          curl -fsSL https://viteplus.dev/install.sh | bash
+          echo "$HOME/.voidzero/bin" >> $GITHUB_PATH
 
       - name: Build with Vite+
         run: vp build # Vite+のビルドコマンド
