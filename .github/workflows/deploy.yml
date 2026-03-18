@@ -25,8 +25,11 @@ jobs:
           curl -fsSL https://viteplus.dev/install.sh | bash
           echo "$HOME/.voidzero/bin" >> $GITHUB_PATH
 
-      - name: Build with Vite+
-        run: vp build # Vite+のビルドコマンド
+      - name: Verify and Build with vite+
+        run: |
+          vp --version
+          vp install
+          vp build
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
