@@ -1,13 +1,20 @@
-# vite-vite
+# Vite+vite
 
-https://eztas.github.io/vite-vite/
+URL: https://eztas.github.io/vite-vite/
 
-## 手順(Mac)
-1. `curl -fsSL https://vite.plus | bash`でVite+をインストール
-2. `vp create`で環境構築（今回は`Vite+ Application: Create vite applications`で作成）
-3. `vite.config.ts`のConfigで、`base: "/<repository-name>/",`を追加
-4. `.github/workflows/deploy.yml`の作成（`vp`コマンドをCIで利用するための[参考](https://github.com/voidzero-dev/setup-vp/blob/main/README.md)）
-5. GithubのSettings -> PagesのBuild and deploymentでGithub Actionsを選択
+Hit and Blow, Numeronなどと呼ばれるゲームと同じ
+
+Switchのアソビ大全におけるルールを1人用に改変して今回採用
+
+2つの結果を利用して、色と場所の位置を当てるゲーム
+
+- Vite（ヴィート）- 選択した色と場所が同じ
+- vite（ヴァイト）- 選択した色は存在するが、場所が異なる
+
+以下の点から着想を得て開発
+- Vite+を使って開発をしてみたかった
+- Vite（ヴィート）を最初ヴァイトと誤って読んでいたこと
+- Numeronでは1イート1バイトと呼ばれており、ヴィートやヴァイトに似ていると感じた
 
 ## 参考文献
 - [【Alpha版】Vite+ を試してみる！【VoidZero帝国】](https://zenn.dev/hiruno_tarte/articles/vite-plus-alpha)
