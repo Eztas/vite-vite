@@ -15,12 +15,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      # 公式のセットアップActionを使用
+      # 公式のCI, Github Actionを使用
       - uses: voidzero-dev/setup-vp@v1
         with:
           node-version: "22"
-          cache: true        # 依存関係のキャッシュも自動でやってくれます
-          run-install: true  # 自動で vp install を実行してくれます
+          cache: true        # 依存関係のキャッシュも自動で実行
+          run-install: true  # 自動でvp installを実行
 
       - name: Build with Vite+
         run: vp build
