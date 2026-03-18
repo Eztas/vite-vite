@@ -1,5 +1,7 @@
 # vite-vite
 
+https://eztas.github.io/vite-vite/
+
 ## 手順(Mac)
 1. `curl -fsSL https://vite.plus | bash`でVite+をインストール
 2. `vp create`で環境構築（今回は`Vite+ Application: Create vite applications`で作成）
