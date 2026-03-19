@@ -60,6 +60,8 @@ Vite+ではこの辺りの設定ファイルも既に存在する
 
 `vp config`を一回ターミナルで打てばOK
 
+`git config core.hooksPath .vite-hooks`だと、vpコマンドを認識でない
+
 `vp staged`がコミットの瞬間に機能して、`vp check --fix`が機能するが、
 なぜか2026年3月20日時点ではエラーになってコミットすらできない
 
