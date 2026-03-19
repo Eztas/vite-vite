@@ -19,8 +19,8 @@ jobs:
       - uses: voidzero-dev/setup-vp@v1
         with:
           node-version: "22"
-          cache: true        # 依存関係のキャッシュも自動で実行
-          run-install: true  # 自動でvp installを実行
+          cache: true # 依存関係のキャッシュも自動で実行
+          run-install: true # 自動でvp installを実行
 
       - name: Build with Vite+
         run: vp build
@@ -31,7 +31,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: './dist'
+          path: "./dist"
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4

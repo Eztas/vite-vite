@@ -9,6 +9,10 @@
     "preview": "vp preview",
     "prepare": "vp config"
   },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.2.1",
+    "tailwindcss": "^4.2.1"
+  },
   "devDependencies": {
     "typescript": "~5.9.3",
     "vite": "npm:@voidzero-dev/vite-plus-core@latest",
@@ -20,9 +24,5 @@
       "vite": "npm:@voidzero-dev/vite-plus-core@latest",
       "vitest": "npm:@voidzero-dev/vite-plus-test@latest"
     }
-  },
-  "dependencies": {
-    "@tailwindcss/vite": "^4.2.1",
-    "tailwindcss": "^4.2.1"
   }
 }
