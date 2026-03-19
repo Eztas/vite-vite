@@ -58,12 +58,12 @@ JavaScriptでも必要なlint設定は`vite.config.ts`で行うイメージ
 
 Vite+ではこの辺りの設定ファイルも既に存在する
 
-`vp config --hooks-dir .vite-hooks`を一回ターミナルで打てばOK
+`vp config`を一回ターミナルで打てばOK
 
 `vp staged`がコミットの瞬間に機能して、`vp check --fix`が機能するが、
 なぜか2026年3月20日時点ではエラーになってコミットすらできない
 
--> _フォルダが生成されるので、それを消せば`vp config`はリセットできる
+-> \_フォルダが生成されるので、それを消せば`vp config`はリセットできる
 
 ## vpのコマンド
 
