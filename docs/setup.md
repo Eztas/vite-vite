@@ -30,9 +30,15 @@ plugins: [
 
 Oxlint（リント）、Oxfmt（フォーマット）、型チェック、pre-commit hook
 
-- [`oxfmt`によるフォーマット](https://viteplus.dev/guide/lint)
-- `oxlint`によるリント
-- tsgolint による type-aware なリント (ついでに型チェック)
+- [`oxfmt`によるフォーマット](https://viteplus.dev/guide/fmt)
+- [`oxlint`によるリント](https://viteplus.dev/guide/lint)
+- `tsgolint`による type-aware なリント (ついでに型チェック)
+
+### フォーマッター
+
+初期状態で既にある[Oxfmt](https://oxc.rs/docs/guide/usage/formatter.html)により実装されている
+
+コードの見た目(TypeScriptに関する設定ではない)なので、`vite.config.ts`で主に設定
 
 ### リンター
 

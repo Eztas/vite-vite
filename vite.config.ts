@@ -6,6 +6,17 @@ export default defineConfig({
   staged: {
     "*": "vp check --fix",
   },
+  fmt: {
+    options: {
+      maxEmptyLines: 1,
+      indentStyle: "tab", // インデントの種類（space or tab）
+      indentWidth: 2, // インデントの幅
+      lineWidth: 40, // 1行の最大文字数
+      files: {
+        insertFinalNewline: true,
+      },
+    },
+  },
   lint: {
     options: {
       typeAware: true,
