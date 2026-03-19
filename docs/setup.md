@@ -54,6 +54,17 @@ Oxlint（リント）、Oxfmt（フォーマット）、型チェック、pre-co
 TypeScript由来の[lint](https://www.typescriptlang.org/tsconfig/)は`tsconfig.json`、
 JavaScriptでも必要なlint設定は`vite.config.ts`で行うイメージ
 
+### Commit Hooks（コミットフック）
+
+Vite+ではこの辺りの設定ファイルも既に存在する
+
+`vp config --hooks-dir .vite-hooks`を一回ターミナルで打てばOK
+
+`vp staged`がコミットの瞬間に機能して、`vp check --fix`が機能するが、
+なぜか2026年3月20日時点ではエラーになってコミットすらできない
+
+tailwindのプラグインがあるとうまくいかない可能性あり
+
 ## vpのコマンド
 
 Next.jsも`vp create create-next-app `で作れる
