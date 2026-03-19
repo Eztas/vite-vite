@@ -26,11 +26,26 @@ plugins: [
 
 インストールするだけでlinterとformatterが既に作られている
 
+さらに、`tsconfig.json`と`vite.config.ts`を修正するだけで良い
+
 Oxlint（リント）、Oxfmt（フォーマット）、型チェック、pre-commit hook
 
 - [`oxfmt`によるフォーマット](https://viteplus.dev/guide/lint)
 - `oxlint`によるリント
 - tsgolint による type-aware なリント (ついでに型チェック)
+
+### リンター
+初期状態で既に存在するリンターを組み合わせて利用されている
+
+`oxlint`により未使用変数などの一般的なものを設定せずにそのまま利用できる
+
+ここにさらに`vite.config.ts`で設定されたリンター、Goで書かれている`tsgolint`もある
+- `typeAware: true`: Promiseにawaitやcatchを使っているかなどの細かい厳格な型推論
+- `typeCheck: true`: Linterはファイル単体を見るが、これを有効にすることで「別ファイルで型が変わったことによるエラー」もチェック
+
+TypeScript由来の[lint](https://www.typescriptlang.org/tsconfig/)は`tsconfig.json`、
+JavaScriptでも必要なlint設定は`vite.config.ts`で行うイメージ
+
 
 ## vpのコマンド
 
