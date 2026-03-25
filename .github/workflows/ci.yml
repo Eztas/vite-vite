@@ -16,7 +16,8 @@ jobs:
         with:
           node-version: "lts" # 最新バージョンを自動で追跡
           cache: true # 依存関係のキャッシュも自動で実行
-          run-install: true # 自動でvp installを実行
+      - name: Install dependencies
+        run: vp install # 公式推奨とは異なるが、こうしないとvitestが取得できない
 
       - name: Run Check (Lint & Format)
         # --fix を付けて実行。エラーがあればここで止まります
