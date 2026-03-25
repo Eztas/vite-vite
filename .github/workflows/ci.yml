@@ -1,0 +1,27 @@
+name: CI(Formatter, Linter, Vitest)
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    # 公式のREADMEを参考, vpに関するインストールなど
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0 # fixを適用させるなら
+      - uses: voidzero-dev/setup-vp@v1
+        with:
+          node-version: "lts" # 最新バージョンを自動で追跡
+          cache: true # 依存関係のキャッシュも自動で実行
+          run-install: true # 自動でvp installを実行
+
+      - name: Run Check (Lint & Format)
+        # --fix を付けて実行。エラーがあればここで止まります
+        run: vp check --fix
+
+      - name: Run Tests
+        # テストを実行
+        run: vp test
