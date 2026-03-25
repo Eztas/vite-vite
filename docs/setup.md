@@ -58,19 +58,17 @@ JavaScriptでも必要なlint設定は`vite.config.ts`で行うイメージ
 
 Vite+ではこの辺りの設定ファイルも既に存在する
 
-`vp config`を一回ターミナルで打てばOK
+`vp config`を一回ターミナルで打てばOKで、プッシュ時に自動でfixしてくれる
 
-`git config core.hooksPath .vite-hooks`だと、vpコマンドを認識でない
+## CI
 
-`vp staged`がコミットの瞬間に機能して、`vp check --fix`が機能するが、
-なぜか2026年3月20日時点ではエラーになってコミットすらできない
+`vp`という特殊なコマンドを扱うために、工夫が必要
 
--> \_フォルダが生成されるので、それを消せば`vp config`はリセットできる
+node_modules やロックファイルが完全に認識される前にインストールが走り、不整合（Not found と表示される原因）が起きることをを防ぐために、`vp install`を明示
 
-issueでも挙げられている
+ただ、前は`run-install: true`にしないと逆にバグっていた気もする、公式が修正してくれたかな
 
-- https://github.com/voidzero-dev/vite-plus/issues/902
-- https://github.com/voidzero-dev/vite-plus/issues/854 (AGENT.mdに関するコンソールが出ることも)
+そのあとはもうリンターなどを実行するコマンドを打つだけ
 
 ## vpのコマンド
 
