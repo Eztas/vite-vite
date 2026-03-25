@@ -1,5 +1,5 @@
-import type { ColorName } from '../consts';
-import { COLOR_PALETTE, CODE_LENGTH } from '../consts';
+import type { ColorName } from "../consts";
+import { COLOR_PALETTE, CODE_LENGTH } from "../consts";
 
 // ヒット＆ブローの判定ロジック（重複対応版）
 export function judge(secret: ColorName[], guess: ColorName[]) {
