@@ -4,8 +4,8 @@ import type { ColorName } from "./consts";
 import { COLOR_PALETTE, CODE_LENGTH, MAX_ATTEMPTS } from "./consts";
 
 // 変数にするとややこしいので
-// Vite = eat（位置も色も合っている数）
-// vite = bite（色は合っているが位置が違う数）
+// Vite（ヴィート） = eat（位置も色も合っている数）
+// vite（ヴァイト） = bite（色は合っているが位置が違う数）
 // と呼ぶことにする
 
 // --- ゲームの状態 ---
