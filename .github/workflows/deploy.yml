@@ -3,6 +3,8 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  paths-ignore:
+    - "docs/**"
 
 permissions:
   contents: read
@@ -13,12 +15,12 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       # 公式のCI, Github Actionを使用
       - uses: voidzero-dev/setup-vp@v1
         with:
-          node-version: "22"
+          node-version: "lts"
           cache: true # 依存関係のキャッシュも自動で実行
           run-install: true # 自動でvp installを実行
 
