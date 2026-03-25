@@ -1,4 +1,5 @@
 import { defineConfig } from "vite-plus";
+import tailwindcss from "@tailwindcss/vite";
 
 export default defineConfig({
   base: "/vite-vite/", // Github Pagesでのレポジトリ名
@@ -41,4 +42,5 @@ export default defineConfig({
       ],
     },
   },
+  plugins: [tailwindcss()],
 });

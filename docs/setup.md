@@ -68,6 +68,7 @@ Vite+ではこの辺りの設定ファイルも既に存在する
 -> \_フォルダが生成されるので、それを消せば`vp config`はリセットできる
 
 issueでも挙げられている
+
 - https://github.com/voidzero-dev/vite-plus/issues/902
 - https://github.com/voidzero-dev/vite-plus/issues/854 (AGENT.mdに関するコンソールが出ることも)
 
