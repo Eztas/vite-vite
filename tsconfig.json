@@ -23,5 +23,5 @@
     "noFallthroughCasesInSwitch": true, // switch 文で break を忘れて次の case に突入するのを防ぐ
     "noUncheckedSideEffectImports": true // import "./style.css" のような中身の関数などを使わないインポートが、実際に利用されているか
   },
-  "include": ["src"]
+  "include": ["src", "src/__tests__"]
 }
