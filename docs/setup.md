@@ -1,77 +1,22 @@
-## 環境構築からデプロイまでの手順(Mac)
+## dependabot
 
-1. `curl -fsSL https://vite.plus | bash`でVite+をインストール
-2. `vp create`で環境構築（今回は`Vite+ Application: Create vite applications`で作成）
-3. `vite.config.ts`のConfigで、`base: "/<repository-name>/",`を追加
-4. `.github/workflows/deploy.yml`の作成（`vp`コマンドをCIで利用するための[参考](https://github.com/voidzero-dev/setup-vp/blob/main/README.md)）
-5. GithubのSettings -> PagesのBuild and deploymentでGithub Actionsを選択
+1. バージョン更新（Version Updates）
+   目的: ライブラリを常に最新に保ち、負債を貯めないこと。
 
-## tailwindcss
+   仕組み: 今回作成した .github/dependabot.yml の設定に従って動きます。
 
-従来のように初期のセットアップではtailwindcssは入らない
+   動作: 指定したスケジュール（毎週月曜など）に、「新しいバージョンが出ていないか」をチェックし、あればPRを作ります。
 
-1. `vp install tailwindcss @tailwindcss/vite` \* 警告は出るがおそらく問題ない
-2. `style.css`の全文を`@import "tailwindcss";`に変更
-3. `vite.config.ts`に`import tailwindcss from '@tailwindcss/vite'`と
+2. セキュリティアップデート（Security Updates）
+   目的: 脆弱性（セキュリティの穴）を即座に塞ぐこと。
 
-```ts
-plugins: [
-    tailwindcss(),
-],
-```
+   仕組み: GitHubが持っている「脆弱性データベース」と、あなたのリポジトリの pnpm-lock.yaml を照合します。
 
-を追加
+   動作: スケジュールに関係なく、危険な脆弱性が見つかった瞬間に「これ危ないからこのバージョンに上げて！」とPRを投げてきます。
 
-## vp check
+もし変更するべき内容があれば自動でPRを作成してくれる
+さらに、CIを作っていればCIも動かして、その依存変更を取り入れても問題ないか確認してくれる
 
-インストールするだけでlinterとformatterが既に作られている
-
-さらに、`tsconfig.json`と`vite.config.ts`を修正するだけで良い
-
-Oxlint（リント）、Oxfmt（フォーマット）、型チェック、pre-commit hook
-
-- [`oxfmt`によるフォーマット](https://viteplus.dev/guide/fmt)
-- [`oxlint`によるリント](https://viteplus.dev/guide/lint)
-- `tsgolint`による type-aware なリント (ついでに型チェック)
-
-### フォーマッター
-
-初期状態で既にある[Oxfmt](https://oxc.rs/docs/guide/usage/formatter.html)により実装されている
-
-コードの見た目(TypeScriptに関する設定ではない)なので、`vite.config.ts`で主に設定
-
-### リンター
-
-初期状態で既に存在するリンターを組み合わせて利用されている
-
-`oxlint`により未使用変数などの一般的なものを設定せずにそのまま利用できる
-
-ここにさらに`vite.config.ts`で設定されたリンター、Goで書かれている`tsgolint`もある
-
-- `typeAware: true`: Promiseにawaitやcatchを使っているかなどの細かい厳格な型推論
-- `typeCheck: true`: Linterはファイル単体を見るが、これを有効にすることで「別ファイルで型が変わったことによるエラー」もチェック
-
-TypeScript由来の[lint](https://www.typescriptlang.org/tsconfig/)は`tsconfig.json`、
-JavaScriptでも必要なlint設定は`vite.config.ts`で行うイメージ
-
-### Commit Hooks（コミットフック）
-
-Vite+ではこの辺りの設定ファイルも既に存在する
-
-`vp config`を一回ターミナルで打てばOKで、プッシュ時に自動でfixしてくれる
-
-## CI
-
-`vp`という特殊なコマンドを扱うために、工夫が必要
-
-node_modules やロックファイルが完全に認識される前にインストールが走り、不整合（Not found と表示される原因）が起きることをを防ぐために、`vp install`を明示
-
-ただ、前は`run-install: true`にしないと逆にバグっていた気もする、公式が修正してくれたかな
-
-そのあとはもうリンターなどを実行するコマンドを打つだけ
-
-## vpのコマンド
-
-Next.jsも`vp create create-next-app `で作れる
-
-参考:[新登場したVite+が速すぎる！— ESLint 100倍、しかも Next.js でも動く](https://zenn.dev/ashunar0/articles/26d33059997e38)
+- [dependabot公式Docs](https://docs.github.com/ja/code-security/tutorials/secure-your-dependencies/dependabot-quickstart-guide#%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA%E3%81%AB%E5%AF%BE%E3%81%99%E3%82%8B-dependabot-%E3%81%AE%E6%9C%89%E5%8A%B9%E5%8C%96)
+- https://www.kdkwakaba.com/articles/introduction-to-github-dependabot-in-2025
+- https://qiita.com/tsuzuki_takaaki/items/2e0e13544fefd9f55611
