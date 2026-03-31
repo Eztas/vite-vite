@@ -1,0 +1,25 @@
+version: 2 # v1は非推奨
+updates:
+  # npm エコシステムとして設定（pnpmもこれで対応します）
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      timezone: "Asia/Tokyo"
+    # pnpmを使っているので、ロックファイルも自動で更新
+    # vp独自のエイリアス（npm:@voidzero-dev/...）もDependabotは解釈可能
+    open-pull-requests-limit: 3
+    groups:
+      production-dependencies:
+        dependency-type: "production"
+      development-dependencies:
+        dependency-type: "development"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"] # メジャーな破壊的変更は無視して自力対応
+
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 3
