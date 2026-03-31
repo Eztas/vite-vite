@@ -14,8 +14,12 @@
 
    動作: スケジュールに関係なく、危険な脆弱性が見つかった瞬間に「これ危ないからこのバージョンに上げて！」とPRを投げてきます。
 
-もし変更するべき内容があれば自動でPRを作成してくれる
+もし変更するべき内容があれば自動でPRを作成してくれる(PR作成時のみとかじゃなくても、定期実行ができる)
 さらに、CIを作っていればCIも動かして、その依存変更を取り入れても問題ないか確認してくれる
+
+### 設定
+
+`open-pull-requests-limit`: 一度にdependabotが開くことができるPR
 
 - [dependabot公式Docs](https://docs.github.com/ja/code-security/tutorials/secure-your-dependencies/dependabot-quickstart-guide#%E3%83%AA%E3%83%9D%E3%82%B8%E3%83%88%E3%83%AA%E3%81%AB%E5%AF%BE%E3%81%99%E3%82%8B-dependabot-%E3%81%AE%E6%9C%89%E5%8A%B9%E5%8C%96)
 - https://www.kdkwakaba.com/articles/introduction-to-github-dependabot-in-2025
