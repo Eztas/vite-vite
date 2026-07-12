@@ -2,6 +2,7 @@ import "./style.css";
 import { judge, generateSecretCode } from "./lib/utils";
 import type { ColorName } from "./consts";
 import { COLOR_PALETTE, CODE_LENGTH, MAX_ATTEMPTS } from "./consts";
+import { getHelpModalHtml } from "./components/HelpModal";
 
 // 変数にするとややこしいので
 // Vite（ヴィート） = eat（位置も色も合っている数）
@@ -35,9 +36,14 @@ function render() {
           <h1 class="text-3xl font-extrabold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-fuchsia-500">
             Vite+vite
           </h1>
-          <button id="reset-btn" class="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 rounded-full text-xs font-bold transition-all border border-slate-700">
-            NEW GAME
-          </button>
+          <div class="flex gap-2">
+            <button id="help-btn" class="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 rounded-full text-xs font-bold transition-all border border-slate-700">
+              i
+            </button>
+            <button id="reset-btn" class="px-4 py-1.5 bg-slate-800 hover:bg-slate-700 active:scale-95 rounded-full text-xs font-bold transition-all border border-slate-700">
+              NEW GAME
+            </button>
+          </div>
         </header>
 
         <main class="flex-1 flex flex-col min-h-0">
@@ -125,6 +131,7 @@ function render() {
             </div>
           </div>
         </main>
+        ${getHelpModalHtml()}
       </div>
     </div>
   `;
@@ -167,6 +174,14 @@ function handleGuess() {
 }
 
 function setupEventListeners() {
+  // ヘルプモーダル
+  document.querySelector("#help-btn")?.addEventListener("click", () => {
+    document.querySelector("#help-modal")?.classList.remove("hidden");
+  });
+  document.querySelector("#close-help-btn")?.addEventListener("click", () => {
+    document.querySelector("#help-modal")?.classList.add("hidden");
+  });
+
   // 色選択ボタン
   document.querySelectorAll(".color-pick-btn").forEach((btn) => {
     btn.addEventListener("click", () => {
