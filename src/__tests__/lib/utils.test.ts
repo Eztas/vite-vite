@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect } from "vite-plus/test";
 import { judge } from "../../lib/utils";
 import type { ColorName } from "../../consts";
 
@@ -49,7 +49,8 @@ describe("色と位置に関する判定（重複あり）", () => {
 
     const result = judge(answer, guess);
 
-    expect(result).toEqual({ eat: 1, bite: 1 });
+    expect(result).toEqual({ eat: 1, bite: 0 }); // 答えの緑は一つだけなのでeatを優先
+    // expect(result).toEqual({ eat: 1, bite: 1 }); // 答えの緑の数に依存しない場合
   });
 
   it("回答が全て同じ色の場合の判定", () => {
@@ -57,7 +58,8 @@ describe("色と位置に関する判定（重複あり）", () => {
     const guess: ColorName[] = ["white", "white", "white", "white"];
     const result = judge(answer, guess);
 
-    expect(result).toEqual({ eat: 1, bite: 3 });
+    expect(result).toEqual({ eat: 1, bite: 0 }); // 答えの白は一つだけなのでeatを優先
+    // expect(result).toEqual({ eat: 1, bite: 3 }); // 答えの白の数に依存しない場合
   });
 
   it("全く当たっていない場合", () => {

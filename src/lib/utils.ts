@@ -19,6 +19,26 @@ export function judge(secret: ColorName[], guess: ColorName[]) {
   }
 
   // 2. ブローの判定（色は合っているが位置が違う、重複を考慮）
+  // 【正解】 1 2 3 4 （「1」は1つしかない）
+  // 【予想】 1 1 1 1
+  // でも1ヒットのみにして、正解の個数を優先
+  for (let i = 0; i < CODE_LENGTH; i++) {
+    if (guessCopy[i] !== null) {
+      // 修正: 元のsecretではなく、消費中の secretCopy から探す
+      const foundIndex = secretCopy.indexOf(guessCopy[i]);
+
+      // 見つかった場合
+      if (foundIndex !== -1) {
+        bite++;
+        // ブローとして使った分も null にして消費する！（これがないと重複カウントされる）
+        secretCopy[foundIndex] = null;
+      }
+    }
+  }
+
+  // 3. ブローの判定（色は合っているが位置が違う、重複を考慮）
+  // これだと白が2色しかない場合でも、guessに白が3回あった場合に3回カウントされてしまう
+  /*
   for (let i = 0; i < CODE_LENGTH; i++) {
     if (guessCopy[i] !== null) {
       // ここを「secretCopy.indexOf」ではなく、
@@ -28,6 +48,7 @@ export function judge(secret: ColorName[], guess: ColorName[]) {
       }
     }
   }
+    */
 
   return { eat, bite };
 }
