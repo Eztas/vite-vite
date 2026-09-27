@@ -18,7 +18,7 @@ jobs:
       - uses: actions/checkout@v7
 
       # 公式のCI, Github Actionを使用
-      - uses: voidzero-dev/setup-vp@v1
+      - uses: voidzero-dev/setup-vp@v1.21.1
         with:
           node-version: "lts"
           cache: true # 依存関係のキャッシュも自動で実行
