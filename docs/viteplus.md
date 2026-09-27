@@ -74,4 +74,35 @@ node_modules やロックファイルが完全に認識される前にインス�
 
 Next.jsも`vp create create-next-app `で作れる
 
+## バージョン更新(2026/09/27時点)
+
+`pnpm dlx --package=vite-plus@1.0.0-rc.1 vp migrate --no-interactive`
+
+バージョンを指定してマイグレーションする
+
+マイグレーションによりVite+公式が動作を検証しながらバージョン更新してくれるので基本壊れない（今回も壊れなかった）
+
+下記のようにツールチェーンを更新
+
+(ソフトウェアを開発・チェック・ビルド・テストするために、一緒に使う複数の開発ツールの組み合わせを一気に更新できるのもVite+の強み)
+
+```
+Vite+ 0.1.x
+├─ Vite
+├─ Vitest 4系
+└─ その他
+```
+
+↓
+
+```
+Vite+ 1.0.0-rc.1
+├─ Vite 8.3.1
+├─ Rolldown 1.2.11
+├─ Vitest 5.0.1
+├─ Oxlint 1.85.0
+├─ Oxfmt 0.70.0
+└─ tsdown 0.23.0
+```
+
 参考:[新登場したVite+が速すぎる！— ESLint 100倍、しかも Next.js でも動く](https://zenn.dev/ashunar0/articles/26d33059997e38)
